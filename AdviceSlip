@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <input id="name" type="text" name="username" value="" placeholder="Your Name" />
+    <button id="adviceNow">Get Your Advice!</button>
+    <div class="foo">
+        <strong>Let's see what we advice have for you today..</strong>
+    </div>
+    <script src="Scripts/jquery-3.6.0.js"></script>
+    <script>
+        $("#adviceNow").click(GetAdvice);
+        function GetAdvice() {
+            let name = $("#name").val();
+            $.ajax({
+                type: "GET",
+                url: "https://api.adviceslip.com/advice",
+                dataType: "json",
+                success: function (advice) {
+                    let template = `
+                                    <strong>This is Our Advice For You ${name}!</strong>
+                                    <br />
+                                    <h2>${advice.slip.advice}</h2>
+                                    <br />
+                                    <h2>Written on ${advice.slip.date}</h2>
+                                   `;
+                    $("#foo").html(template);
+                },
+                error: function () {
+                    let template = "<h2>We don't have an advice for you today..</h2>< br /><h2>You know better!</h2>";
+                    $("#foo").html(template);
+                }
+            });
+        }
+        //let advice = `{
+        //                "id":2,
+        //                "advice":"Smile and the world smiles with you. Frown and you're on your own.",
+        //                "date":"2015-11-18"
+        //            }`;
+        //
+    </script>
+</body>
+</html>
